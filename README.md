@@ -2,6 +2,8 @@
 
 # ai-foundry
 
+AIコーディングツール向けルール・スキル等の一元管理リポジトリ。
+
 ```bash
 ai-foundry/
 ├── rules/
@@ -24,12 +26,12 @@ ai-foundry/
 │
 ├── templates/
 │
-└── sync/
-    └── generate.py
+└── scripts/
+    └── sync-rules.sh
 ```
 
-各PRJはsubmodule / subtree / sync script
+## 同期
 
-ポイントは「各AIツール専用ルールを直接メンテしない」構成にして、
-共通ルールを1か所に寄せることです。
-共通ルールRepo + 各AI用に自動生成
+```bash
+./scripts/sync-rules.sh --target ~/works/my-project [--dry-run]
+```
