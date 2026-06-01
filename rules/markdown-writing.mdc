@@ -1,0 +1,27 @@
+---
+description: Avoid unnecessary backticks in Markdown, comments, and docstrings
+alwaysApply: true
+---
+
+# Backtick Usage
+
+- Markdown本文では、本当に必要な場合以外バッククォートを使わない
+- 同じ方針をコード内のコメント、docstring、ユーザー向け説明文にも適用する
+- 普通の日本語や英単語、一般名詞、概念語、状態名はプレーンテキストで書く
+- バッククォートを使うのは、コード、コマンド、ファイルパス、環境変数、関数名、クラス名、API名など、文字どおりの技術識別子に限る
+- コメントやdocstringで関数名を説明するときも、識別子そのものを指す場合だけバッククォートを使う
+- 文章全体を装飾する目的でバッククォートを使わない
+
+## Examples
+
+- Good: videostatushistoryはdevice_id単位で履歴を保持する
+- Bad: `videostatushistory`は`device_id`単位で履歴を保持する
+
+- Good: queueが0になったらscale-inを検討する
+- Bad: `queue`が`0`になったら`scale-in`を検討する
+
+- Good: documents/design/video-processing-flow.mdを更新する
+- Good: process_video()を呼び出す
+
+- Good: 既存POCのprocess_video()を呼び出す薄いラッパー
+- Bad: 既存POCの`process_video()`を呼び出す薄いラッパー

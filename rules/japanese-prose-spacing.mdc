@@ -1,0 +1,25 @@
+---
+description: Avoid unnecessary spaces in Japanese prose
+alwaysApply: true
+---
+
+# Japanese Prose Spacing
+
+- 日本語の文や箇条書きでは、不要な空白を入れない
+- 日本語の助詞、助動詞、句読点の前後に空白を入れない
+- 日本語の説明文では、英単語や識別子を文中に入れる場合も、不要な空白を足さない
+- 英単語や識別子の可読性のために空白が本当に必要な場合だけ、最小限にとどめる
+
+## Examples
+
+- Good: 1回のAz Batch実行を表す一意キー
+- Bad: 1回の Az Batch 実行を表す一意キー
+
+- Good: 動画単位の識別にはsource_blob_nameを使い、Batch実行のまとまりにはbatch_execution_idを使う
+- Bad: 動画単位の識別には source_blob_name を使い、Batch 実行のまとまりには batch_execution_id を使う
+
+- Good: queueが0になったらscale-inを検討する
+- Bad: queue が 0 になったら scale-in を検討する
+
+- Good: documents/design/video-processing-flow.mdを更新する
+- Good: process_video()を呼び出す
