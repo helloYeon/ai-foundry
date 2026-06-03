@@ -9,6 +9,7 @@ alwaysApply: true
 - 日本語の助詞、助動詞、句読点の前後に空白を入れない
 - 日本語の説明文では、英単語や識別子を文中に入れる場合も、不要な空白を足さない
 - 英単語や識別子の可読性のために空白が本当に必要な場合だけ、最小限にとどめる
+- 同じ方針をソースコードのコメント、docstring、ログメッセージにも適用する
 
 ## Examples
 
@@ -23,3 +24,9 @@ alwaysApply: true
 
 - Good: documents/design/video-processing-flow.mdを更新する
 - Good: process_video()を呼び出す
+
+- Good: Azure VMのmanaged identityで認証する
+- Bad: Azure VM の managed identity で認証する
+
+- Good: client_idは環境変数AZURE_CLIENT_IDから取得する
+- Bad: client_id は環境変数 AZURE_CLIENT_ID から取得する
