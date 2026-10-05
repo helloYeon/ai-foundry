@@ -5,6 +5,9 @@
 # 対応ツール:
 #   - Kiro:   <target>/.kiro/steering/*.md
 #   - Cursor: <target>/.cursor/rules/*.mdc
+#   - Claude Code:
+#       alwaysApply: true  -> <target>/.claude/rules/*.md（常時読み込み）
+#       alwaysApply: false -> <target>/.claude/skills/<name>/SKILL.md（description に基づき必要時に読み込み）
 #
 # 使い方:
 #   ./scripts/sync-rules.sh --target ~/works/my-project [--dry-run]
@@ -95,6 +98,35 @@ convert_frontmatter_for_kiro() {
     printf '%s' "$body"
 }
 
+# front-matterの取得・除去（Claude Code用）
+get_frontmatter_value() {
+    local file="$1" key="$2"
+    awk -v key="$key" '
+        /^---$/ { n++; next }
+        n == 1 && index($0, key ":") == 1 {
+            sub("^" key ":[ ]*", ""); print; exit
+        }
+    ' "$file"
+}
+
+strip_frontmatter() {
+    awk '/^---$/ && n < 2 { n++; next } n >= 2 { print }' "$1"
+}
+
+convert_for_claude_rule() {
+    strip_frontmatter "$1"
+}
+
+convert_for_claude_skill() {
+    local file="$1" name="$2" description
+    description=$(get_frontmatter_value "$file" description)
+    echo "---"
+    echo "name: $name"
+    echo "description: $description"
+    echo "---"
+    strip_frontmatter "$file"
+}
+
 # Cursor/Windsurf用（そのままコピー）
 convert_passthrough() {
     cat "$1"
@@ -162,6 +194,23 @@ main() {
         local basename=$(basename "$mdc_file" .mdc)
         local content=$(convert_passthrough "$mdc_file")
         write_file "$content" "$TARGET_DIR/.cursor/rules/$basename.mdc"
+    done
+    echo ""
+
+    # Claude Code
+    echo "[claude] -> .claude/rules/ (alwaysApply: true), .claude/skills/ (alwaysApply: false)"
+    for mdc_file in "$SOURCE_DIR"/*.mdc; do
+        local basename=$(basename "$mdc_file" .mdc)
+        local always=$(get_frontmatter_value "$mdc_file" alwaysApply)
+        if [[ "$always" == "true" ]]; then
+            ensure_dir "$TARGET_DIR/.claude/rules"
+            local content=$(convert_for_claude_rule "$mdc_file")
+            write_file "$content" "$TARGET_DIR/.claude/rules/$basename.md"
+        else
+            ensure_dir "$TARGET_DIR/.claude/skills/$basename"
+            local content=$(convert_for_claude_skill "$mdc_file" "$basename")
+            write_file "$content" "$TARGET_DIR/.claude/skills/$basename/SKILL.md"
+        fi
     done
     echo ""
 

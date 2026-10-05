@@ -35,3 +35,11 @@ ai-foundry/
 ```bash
 ./scripts/sync-rules.sh --target ~/works/my-project [--dry-run]
 ```
+
+出力先:
+
+| ツール      | 出力先                                                                                          |
+| ----------- | ----------------------------------------------------------------------------------------------- |
+| Kiro        | .kiro/steering/*.md                                                                             |
+| Cursor      | .cursor/rules/*.mdc                                                                             |
+| Claude Code | alwaysApply: true は .claude/rules/*.md、false は .claude/skills/<name>/SKILL.md |
